@@ -94,12 +94,18 @@ gulp.task('templates', (done) => {
       var contentTypeSlug = doc._contentType;
       var nameSlug = doc._slug;
 
-      if (!fileExists(`${projectPath}/build/${contentTypeSlug}`)) fs.mkdirSync(`${projectPath}/build/${contentTypeSlug}`);
-
       var html = nun.render(`views/${doc._template}.njk`, doc);
-      fs.mkdirSync(`${projectPath}/build/${contentTypeSlug}/${nameSlug}`);
-      fs.writeFileSync(`${projectPath}/build/${contentTypeSlug}/${nameSlug}/index.html`, html);
-      if (doc._index) fs.writeFileSync(`${projectPath}/build/index.html`, html);
+
+      if (doc._slugType == "index") {
+        fs.writeFileSync(`${projectPath}/build/index.html`, html);
+      }else if (doc._slugType == "no-content-type") {
+        if (!fileExists(`${projectPath}/build/${nameSlug}`)) fs.mkdirSync(`${projectPath}/build/${nameSlug}`);
+        fs.writeFileSync(`${projectPath}/build/${nameSlug}/index.html`, html);
+      }else{
+        if (!fileExists(`${projectPath}/build/${contentTypeSlug}`)) fs.mkdirSync(`${projectPath}/build/${contentTypeSlug}`);
+        fs.mkdirSync(`${projectPath}/build/${contentTypeSlug}/${nameSlug}`);
+        fs.writeFileSync(`${projectPath}/build/${contentTypeSlug}/${nameSlug}/index.html`, html);
+      }
     })
 
     done();

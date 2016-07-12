@@ -25,6 +25,17 @@
       }, doc) }}
 
       <div class="field">
+        <div class="field__title">_slugType</div>
+        <div class="select-wrapper">
+          <select name="_slugType">
+            <option value="standard" {{ "selected" if doc._slugType=="standard" }}>Standard (all slugs)</option>
+            <option value="no-content-type" {{ "selected" if doc._slugType=="no-content-type" }}>No content type slug</option>
+            <option value="index" {{ "selected" if doc._slugType=="index" }}>This is index</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
         <div class="field__title">_template</div>
         <div class="select-wrapper">
           <select name="_template">
