@@ -1,0 +1,12 @@
+.content {
+  position: fixed;
+  top: 80px;
+  left: 320px;
+  right: 0;
+  bottom: 0;
+
+  overflow: auto;
+}
+  .content__inner {
+    padding: 40px 24px;
+  }

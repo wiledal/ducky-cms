@@ -1,0 +1,19 @@
+{% extends "layouts/default.njk" %}
+
+{% block header %}
+  <h1>Content types</h1>
+
+  <div class="topbar__right">
+    <a href="/admin/content-types/new" class="button">Create new type</a>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content__inner">
+    <div class="table">
+      {% for type in contentTypes %}
+        <a class="table__row" href="/admin/content-types/{{ type._id }}/edit">{{ type._name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

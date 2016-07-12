@@ -1,0 +1,21 @@
+.type-field {
+  position: relative;
+  margin-bottom: 8px;
+
+  input {
+    display: inline-block;
+    width: 30%;
+  }
+  .select-wrapper {
+    width: 40%;
+  }
+}
+  .type-field__tools {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    .button {
+      padding: 12px;
+    }
+  }

@@ -1,0 +1,17 @@
+.table {
+  width: 100%;
+}
+  .table__row {
+    display: block;
+    padding: 10px 16px;
+    cursor: pointer;
+
+    &:nth-child(even) {
+      background: #f2f2f2;
+    }
+
+    &:hover {
+      background: #2e265c;
+      color: #fff;
+    }
+  }

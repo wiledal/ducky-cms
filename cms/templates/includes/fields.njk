@@ -1,0 +1,13 @@
+{% macro field(f, doc) %}
+  <div class="field">
+    <div class="field__title">{{ f.name }}</div>
+
+    {% if f.type == "textarea" %}
+      <textarea name="{{ slugify(f.name) }}">{{ doc[slugify(f.name)] }}</textarea>
+    {% endif %}
+
+    {% if f.type == "text" %}
+      <input name="{{ slugify(f.name) }}" type="text" value="{{ doc[slugify(f.name)] }}">
+    {% endif %}
+  </div>
+{% endmacro %}

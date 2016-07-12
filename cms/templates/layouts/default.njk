@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ducky CMS</title>
+    <link rel="stylesheet" href="/admin/assets/css/cms.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+
+    <div class="topbar">
+      {% block header %}{% endblock %}
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar__top">
+        <a href="/admin">DuckyCMS</a>
+      </div>
+
+      <div class="sidebar__section">
+        <h2>Content</h2>
+        {% for type in contentTypes %}
+          <a href="/admin/content/{{ type._slug }}"><span class="icon icon-basic-sheet"></span>{{ type._name }}</a>
+        {% else %}
+          <i>No content types</i>
+        {% endfor %}
+      </div>
+
+      <div class="sidebar__section">
+        <h2>System</h2>
+        <a href="/admin/content-types"><span class="icon icon-basic-gear"></span>Content types</a>
+        <a href="/admin/deploy"><span class="icon icon-basic-paperplane"></span>Deploy</a>
+      </div>
+    </div>
+
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+
+    <script type="text/javascript">
+      var doc = {{ doc | dump | safe or "{}" }}
+      var contentType = {{ contentType | dump | safe or "{}" }}
+    </script>
+    <script src="/admin/assets/js/cms.js" charset="utf-8"></script>
+
+  </body>
+</html>

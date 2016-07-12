@@ -1,0 +1,43 @@
+{% extends "layouts/default.njk" %}
+{% import "includes/fields.njk" as fields %}
+
+{% block header %}
+  <h1>{{ contentType._name }} > <i>{{ doc._name or 'unnamed' }}</i></h1>
+
+  <div class="topbar__right">
+    {% if doc %}
+      <button class="button js-delete-doc"><span class="icon icon-basic-trashcan"></span>Delete</button>
+    {% endif %}
+    <button class="button js-save-doc"><span class="icon icon-basic-floppydisk"></span>Save</button>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content__inner">
+    <div class="fields">
+      <div class="field hidden">
+        <input type="hidden" name="_contentType" value="{{ contentType._slug }}">
+      </div>
+
+      {{ fields.field({
+        name: "_name",
+        type: "text"
+      }, doc) }}
+
+      <div class="field">
+        <div class="field__title">_template</div>
+        <div class="select-wrapper">
+          <select name="_template">
+            {% for template in templates %}
+              <option value="{{ template }}" {{ "selected" if selectedTemplate==template }}>{{ template }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      {% for field in contentType.fields %}
+        {{ fields.field(field, doc) }}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

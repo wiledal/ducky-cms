@@ -1,0 +1,17 @@
+.button {
+  -webkit-appearance: none;
+  border: none;
+  line-height: 14px;
+  display: inline-block;
+  padding: 15px 20px;
+  border-radius: 3px;
+  background: #302266;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  outline: none;
+
+  &:hover {
+    background: #4a3890;
+  }
+}

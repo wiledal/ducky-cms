@@ -1,0 +1,29 @@
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 320px;
+  right: 0;
+  height: 80px;
+  border-bottom: 1px solid #c6c6c6;
+
+  h1 {
+    padding: 40px 24px;
+    line-height: 0;
+    font-size: 30px;
+  }
+}
+  .topbar__right {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translate(0, -50%);
+
+    .icon {
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    a {
+
+    }
+  }

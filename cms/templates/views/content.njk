@@ -1,0 +1,23 @@
+{% extends "layouts/default.njk" %}
+
+{% block header %}
+  <h1>{{ contentType._name }}</h1>
+
+  <div class="topbar__right">
+    <a href="/admin/content/{{ contentType._slug }}/new" class="button"><span class="icon icon-basic-sheet"></span>Create new</a>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content__inner">
+    <div class="table">
+      {% for doc in docs %}
+        <a class="table__row" href="/admin/content/{{ doc._id }}/edit">{{ doc._name }}</a>
+      {% else %}
+      <p>
+        <i>No {{ contentType._name }}...</i> <a href="/admin/content/{{ contentType._slug }}/new">Create one</a>
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

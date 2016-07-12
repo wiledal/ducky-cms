@@ -1,0 +1,22 @@
+{% extends "layouts/default.njk" %}
+
+{% block header %}
+  <h1>Deploy</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="content__inner">
+    <h2>Deploy with surge</h2>
+    <p>
+      Please make sure you have <a href="http://surge.sh" target="_blank">Surge</a> set up on your computer.
+    </p>
+    <div class="field">
+      <div class="field__title">Domain</div>
+      <input type="text" name="surge_url" value="" placeholder="example.surge.sh">
+    </div>
+    <button class="button js-deploy-surge">surge deploy</button>
+
+    <pre class="console">Console output:
+---------------------------------</pre>
+  </div>
+{% endblock %}
