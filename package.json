@@ -1,6 +1,6 @@
 {
   "name": "ducky-cms",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A node-based flat-file cms for static publishing",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,7 +24,6 @@
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
     "marked": "^0.3.5",
-    "nedb": "^1.8.0",
     "nedb-promise": "^2.0.0",
     "nunjucks": "^2.4.2",
     "run-sequence": "^1.2.2",

@@ -555,6 +555,8 @@ input[type="text"], textarea, select {
   background: #fff;
   max-width: 600px;
   font-family: Arial, sans-serif; }
+  input[type="text"]:disabled, textarea:disabled, select:disabled {
+    opacity: .5; }
 
 textarea {
   height: 200px; }

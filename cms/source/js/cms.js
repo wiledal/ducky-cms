@@ -1,5 +1,13 @@
 //=require vendor/*.js
 
+function slugify(text) {
+  return text.toString().toLowerCase().trim()
+    .replace(/\s+/g, '-')
+    .replace(/&/g, '-and-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-');
+}
+
 function CMS() {
   var saveButtons = [].slice.call(document.querySelectorAll(".js-save-doc"));
   var saveContentTypeButtons = [].slice.call(document.querySelectorAll(".js-save-content-type"));
@@ -10,8 +18,18 @@ function CMS() {
   var deleteDocButton = document.querySelector(".js-delete-doc");
   var deleteContentTypeButton = document.querySelector(".js-delete-content-type");
 
+  var slugger = document.querySelector('.slugger');
+  if (slugger) {
+    var slugField = document.querySelector('input[name="_name"]');
+    slugField.addEventListener('input', function() {
+      slugger.value = slugify(slugField.value);
+    });
+  }
+
   if (deleteDocButton) {
     deleteDocButton.addEventListener('click', function() {
+      if (!confirm("Are you sure?")) return;
+      
       var url = '/admin/doc/' + doc._id;
       var method = 'DELETE';
 
@@ -31,6 +49,8 @@ function CMS() {
 
   if (deleteContentTypeButton) {
     deleteContentTypeButton.addEventListener('click', function() {
+      if (!confirm("Are you sure?")) return;
+
       var url = '/admin/content-type/' + contentType._id;
       var method = 'DELETE';
 

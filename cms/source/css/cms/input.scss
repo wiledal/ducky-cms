@@ -12,6 +12,10 @@ input[type="text"], textarea, select {
 
   max-width: 600px;
   font-family: Arial, sans-serif;
+
+  &:disabled {
+    opacity: .5;
+  }
 }
 
 textarea {
