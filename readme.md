@@ -1,8 +1,8 @@
-# Ducky CMS
+# Ducky CMS (name TBD...)
 > The simplest, blazing fast, node-based, flat-file, locally-hosted, CMS for static website generation
 
 ## What
-DuckyCMS is a flat-file CMS for writing static websites with ease.
+DuckyCMS (name TBD...) is a flat-file CMS for writing static websites with ease.
 
 ## How?
 `npm install -g ducky-cms`  
