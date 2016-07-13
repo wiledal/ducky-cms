@@ -1,0 +1,19 @@
+.asset-list {
+
+}
+  .asset {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border: 2px solid #b8b8b8;
+
+    img {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translate(0, -50%);
+      width: 100%;
+    }
+  }

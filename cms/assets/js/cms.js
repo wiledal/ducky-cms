@@ -356,7 +356,7 @@ function CMS() {
   if (deleteDocButton) {
     deleteDocButton.addEventListener('click', function() {
       if (!confirm("Are you sure?")) return;
-      
+
       var url = '/admin/doc/' + doc._id;
       var method = 'DELETE';
 
@@ -404,6 +404,7 @@ function CMS() {
         var t = f.querySelector('input');
         if (!t) t = f.querySelector('textarea');
         if (!t) t = f.querySelector('select');
+        if (t.mde) return data[t.name] = t.mde.value();
         data[t.name] = t.value;
       });
 
@@ -524,5 +525,16 @@ function CMS() {
   }
 
   bindTypeFieldEvents()
+
+  var markdownTextAreas = [].slice.call(document.querySelectorAll('.textarea--markdown'));
+  markdownTextAreas.forEach(function(t) {
+    var mde = new SimpleMDE({
+      element: t,
+      toolbar: false,
+      spellChecker: false
+    });
+
+    t.mde = mde;
+  });
 }
 var cms = new CMS();

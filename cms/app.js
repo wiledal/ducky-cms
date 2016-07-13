@@ -36,7 +36,7 @@ function execp(command, args) {
 }
 
 module.exports = (options) => {
-  const port = options.port | 3000;
+  const port = options.port ? options.port : 3000;
   const projectPath = process.cwd();
 
   // Run app
@@ -156,6 +156,33 @@ module.exports = (options) => {
       contentTypes: contentTypes
     });
   });
+
+  router.get('/admin/assets', function*() {
+    var contentTypes = yield db.find({ _type: 'content-type' });
+    var assets = yield glob(`${projectPath}/assets/uploads/**/*`);
+    assets = assets.map((a) => {
+      return path.basename(a);
+    });
+
+    this.render('views/assets', {
+      contentTypes: contentTypes,
+      assets: assets
+    });
+  });
+
+  router.post('/admin/assets/upload', koaBody({
+    multipart: true,
+    formidable: {
+      onFileBegin: (name, file) => {
+        file.path = `${projectPath}/assets/uploads/${file.name}`
+      }
+    }
+  }), function*(next) {
+    this.body = {
+      success: true
+    }
+    yield next;
+  })
 
   // Create new
   router.post('/admin/doc/', function*() {

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Ducky CMS</title>
     <link rel="stylesheet" href="/admin/assets/css/cms.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
   </head>
   <body>
 
@@ -23,6 +24,7 @@
         {% else %}
           <i>No content types</i>
         {% endfor %}
+        <a href="/admin/assets"><span class="icon icon-basic-picture-multiple"></span>Assets</a>
       </div>
 
       <div class="sidebar__section">
@@ -40,6 +42,8 @@
       var doc = {{ doc | dump | safe or "{}" }}
       var contentType = {{ contentType | dump | safe or "{}" }}
     </script>
+
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="/admin/assets/js/cms.js" charset="utf-8"></script>
 
   </body>

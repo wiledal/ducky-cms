@@ -6,6 +6,10 @@
       <textarea name="{{ slugify(f.name) }}">{{ doc[slugify(f.name)] }}</textarea>
     {% endif %}
 
+    {% if f.type == "markdown" %}
+      <textarea class='textarea--markdown' name="{{ slugify(f.name) }}">{{ doc[slugify(f.name)] }}</textarea>
+    {% endif %}
+
     {% if f.type == "text" %}
       <input name="{{ slugify(f.name) }}" type="text" value="{{ doc[slugify(f.name)] }}">
     {% endif %}
