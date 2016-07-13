@@ -1,0 +1,41 @@
+.modal {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(#fff, .8);
+}
+  .modal__inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 600px;
+    max-height: 300px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    box-shadow: 0 3px 10px rgba(#000, .2);
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .modal__title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    padding: 30px 20px;
+    font-size: 24px;
+    border-bottom: 1px solid #dddddd;
+  }
+
+  .modal__body {
+    position: absolute;
+    top: 60px;
+    padding: 20px;
+  }

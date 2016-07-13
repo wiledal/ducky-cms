@@ -18,6 +18,8 @@ function CMS() {
   var deleteDocButton = document.querySelector(".js-delete-doc");
   var deleteContentTypeButton = document.querySelector(".js-delete-content-type");
 
+  //=require cms/**/*.js
+
   var slugger = document.querySelector('.slugger');
   if (slugger) {
     var slugField = document.querySelector('input[name="_name"]');
