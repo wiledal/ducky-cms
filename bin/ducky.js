@@ -74,7 +74,7 @@ command('init', 'Initiates a new project', 'ducky init <project path>', (args, a
         },
         {
           name: "Body",
-          type: "textarea",
+          type: "markdown",
           multiple: false
         }
       ]
@@ -84,9 +84,10 @@ command('init', 'Initiates a new project', 'ducky init <project path>', (args, a
       _contentType: "pages",
       _name: "Home",
       _slug: "home",
-      _index: true,
+      _slugType: 'index',
+      _template: 'page',
       title: 'Welcome to DuckyCMS',
-      body: 'Ducky CMS truly is a good cms',
+      body: 'Check out [the Admin](/admin) to start editing!',
     });
 
     console.log('Ducky was initiated.');

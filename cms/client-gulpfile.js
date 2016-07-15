@@ -26,6 +26,37 @@ function fileExists(p) {
   }
 }
 
+function processImage(src, o) {
+  var options = o || {};
+  var imgPath = src;
+  var imgExt = path.extname(imgPath);
+  var imgName = path.basename(imgPath, imgExt);
+
+  var modifiers = {
+    width: options.width ? options.width : -1,
+    height: options.height ? options.height : -1,
+    fit: options.fit ? options.fit : 'contain'
+  }
+
+  var modifiersString = `-${modifiers.width == -1 ? "0" : modifiers.width}x${modifiers.height == -1 ? "0" : modifiers.height}_${modifiers.fit}`;
+  var modifiedName = imgName + (o ? modifiersString : "") + imgExt;
+  if (fileExists(`${projectPath}/build/assets/img/${modifiedName}`)) return '/assets/img/' + modifiedName;
+  
+  jimp.read(src, function(err, img) {
+    if (err) return console.log(err.stack);
+
+    if (o) {
+      if (modifiers.fit == "contain") img.contain(modifiers.width, modifiers.height);
+      if (modifiers.fit == "cover") img.cover(modifiers.width, modifiers.height);
+      if (modifiers.fit == "resize") img.resize(modifiers.width, modifiers.height);
+    }
+
+    img.write(`${projectPath}/build/assets/img/${modifiedName}`);
+  });
+
+  return '/assets/img/' + modifiedName;
+}
+
 gulp.task('clean', () => {
   return gulp.src(`${projectPath}/build`, {read: false})
     .pipe(clean());
@@ -64,37 +95,15 @@ gulp.task('templates', (done) => {
         if (doc._slugType == "no-content-type") return `/${doc._slug}`;
         return `/${doc._contentType}/${doc._slug}`;
       });
-      nun.addGlobal('asset', function(name) {
-        return '/assets/' + name;
+      nun.addGlobal('uploads', function(src, options) {
+        var extName = path.extname(src);
+        if ((extName == ".jpg" || extName == ".png" || extName == ".gif") && options) return processImage(`${projectPath}/assets/uploads/${src}`, options);
+        return '/assets/uploads/' + src;
       });
-      nun.addGlobal('image', function(name, o) {
-        var options = o || {};
-        var imgPath = `${projectPath}/assets/img/${name}`;
-        var imgExt = path.extname(imgPath);
-        var imgName = path.basename(imgPath, imgExt);
-
-        var modifiers = {
-          width: options.width ? options.width : -1,
-          height: options.height ? options.height : -1,
-          fit: options.fit ? options.fit : 'contain'
-        }
-
-        var modifiersString = `-${modifiers.width == -1 ? "0" : modifiers.width}x${modifiers.height == -1 ? "0" : modifiers.height}_${modifiers.fit}`;
-        var modifiedName = imgName + (o ? modifiersString : "") + imgExt;
-
-        jimp.read(`${projectPath}/assets/img/${name}`, function(err, img) {
-          if (err) return console.log(err.stack);
-
-          if (o) {
-            if (modifiers.fit == "contain") img.contain(modifiers.width, modifiers.height);
-            if (modifiers.fit == "cover") img.cover(modifiers.width, modifiers.height);
-            if (modifiers.fit == "resize") img.resize(modifiers.width, modifiers.height);
-          }
-
-          img.write(`${projectPath}/build/assets/img/${modifiedName}`);
-        });
-
-        return '/assets/img/' + modifiedName;
+      nun.addGlobal('asset', function(src, options) {
+        var extName = path.extname(src);
+        if ((extName == ".jpg" || extName == ".png" || extName == ".gif") && options) return processImage(`${projectPath}/assets/${src}`, options);
+        return '/assets/' + src;
       });
       nun.addGlobal('content', docs);
 
