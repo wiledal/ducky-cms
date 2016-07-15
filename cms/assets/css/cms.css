@@ -589,7 +589,7 @@ input[type="text"], textarea, select {
   max-width: 600px;
   font-family: Arial, sans-serif; }
   input[type="text"]:disabled, textarea:disabled, select:disabled {
-    opacity: .5; }
+    color: #ababab; }
 
 textarea {
   height: 200px; }
@@ -613,9 +613,12 @@ select {
 .field {
   margin-bottom: 24px;
   max-width: 600px; }
+  .field * {
+    vertical-align: middle;
+    margin-right: 4px; }
 
 .field__input {
-  display: inline-block;
+  display: block;
   width: 100%; }
 
 .field__title {
@@ -624,17 +627,29 @@ select {
   color: #5b5b5b; }
 
 .field--asset input {
-  display: inline-block;
-  width: 40%; }
+  display: inline-block; }
 
 .field--asset img {
   vertical-align: middle;
-  border: 1px solid black; }
+  border: 1px solid black;
+  max-height: 40px; }
   .field--asset img[src="/assets/uploads/"] {
     display: none; }
 
 .field__template {
   display: none; }
+
+.field[cms-multiple] .input {
+  padding: 4px 4px; }
+  .field[cms-multiple] .input:nth-child(even) {
+    background: #e8e8e8; }
+
+.input {
+  display: flex;
+  justify-content: space-around;
+  align-items: center; }
+  .field--markdown .input {
+    display: block; }
 
 .modal {
   position: fixed;

@@ -1,0 +1,7 @@
+{% for asset in assets %}
+  <div class="asset" asset-src="{{ asset }}">
+    <img src="/assets/uploads/{{ asset }}">
+  </div>
+{% else %}
+  <i>No assets uploaded.</i>
+{% endfor %}

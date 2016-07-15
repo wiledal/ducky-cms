@@ -12,11 +12,9 @@ assets.forEach(function(asset) {
 })
 
 function clickSelectAssetButton() {
-
     var target = this;
     currentAssetSelect = this;
     selectAssetModal.style.display = 'block';
-
 }
 
 function initSelectAssetButtons() {
@@ -27,3 +25,5 @@ function initSelectAssetButtons() {
     b.addEventListener('click', clickSelectAssetButton);
   });
 }
+
+initSelectAssetButtons();

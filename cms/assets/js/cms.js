@@ -395,11 +395,9 @@ function CMS() {
   })
   
   function clickSelectAssetButton() {
-  
       var target = this;
       currentAssetSelect = this;
       selectAssetModal.style.display = 'block';
-  
   }
   
   function initSelectAssetButtons() {
@@ -410,6 +408,8 @@ function CMS() {
       b.addEventListener('click', clickSelectAssetButton);
     });
   }
+  
+  initSelectAssetButtons();
   
     var uploader = document.querySelector('.modal-uploader');
   var uploaderButton = document.querySelector('.js-upload-asset-button');

@@ -200,6 +200,12 @@ module.exports = (options) => {
     yield next;
   })
 
+  router.get('/admin/assets/all', function*() {
+    this.render('views/api/assets', {
+      assets: this.assets
+    });
+  });
+
   // Create new
   router.post('/admin/doc/', function*() {
     var doc = this.request.body;
