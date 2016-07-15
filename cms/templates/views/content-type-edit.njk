@@ -14,8 +14,9 @@
 
 {% block content %}
   <div class="content__inner">
+    <h2>Base fields:</h2>
     <div class="fields">
-      <div class="field hidden">
+      <div class="field hidden" cms-name="_contentType" cms-type="text">
         <input type="hidden" name="_contentType" value="{{ contentType._slug }}">
       </div>
 
@@ -24,12 +25,12 @@
         type: "text"
       }, contentType) }}
 
-      <div class="field field--slug">
+      <div class="field field--slug" cms-name="_slug" cms-type="text">
         <div class="field__title">_slug</div>
         <input disabled name="_slug" class="slugger" type="text" value="{{ contentType._slug }}">
       </div>
 
-      <div class="field">
+      <div class="field" cms-name="_defaultTemplate" cms-type="select">
         <div class="field__title">_defaultTemplate (project/templats/views)</div>
         <div class="select-wrapper">
           <select name="_defaultTemplate">
@@ -40,42 +41,15 @@
         </div>
       </div>
 
+      <h2>Content fields:</h2>
       {% for field in contentType.fields %}
-        <div class="type-field">
-          <input type="text" name="name" value="{{ field.name }}" placeholder="Name">
-
-          <div class="select-wrapper">
-            <select name="type">
-              <option value="text" {{ "selected" if field.type=='text' }}>Text</option>
-              <option value="textarea" {{ "selected" if field.type=='textarea' }}>Textarea</option>
-              <option value="markdown" {{ "selected" if field.type=='markdown' }}>Markdown</option>
-            </select>
-          </div>
-
-          <div class="type-field__tools">
-            <button class="button js-remove-type-field icon-basic-trashcan" ></button>
-          </div>
-        </div>
+        {% include 'includes/type-field.njk' %}
       {% endfor %}
     </div>
     <button class="button js-add-new-type-field">Add new type field</button>
 
     <script type="text/template" name="type-field">
-      <div class="type-field">
-        <input type="text" name="name" value="{{ field.name }}" placeholder="Name">
-
-        <div class="select-wrapper">
-          <select name="type">
-            <option value="text" {{ "selected" if field.type=='text' }}>Text</option>
-            <option value="textarea" {{ "selected" if field.type=='textarea' }}>Textarea</option>
-            <option value="markdown" {{ "selected" if field.type=='markdown' }}>Markdown</option>
-          </select>
-        </div>
-
-        <div class="type-field__tools">
-          <button class="button js-remove-type-field icon-basic-trashcan" ></button>
-        </div>
-      </div>
+      {% include 'includes/type-field.njk' %}
     </script>
   </div>
 {% endblock %}

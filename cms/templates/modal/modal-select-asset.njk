@@ -1,0 +1,16 @@
+<div class="modal modal-select-asset">
+  <div class="modal__padded">
+    <div class="modal__inner">
+      <div class="modal__title">Select asset</div>
+      <div class="modal__body">
+        {% for asset in assets %}
+          <div class="asset" asset-src="{{ asset }}">
+            <img src="/assets/uploads/{{ asset }}">
+          </div>
+        {% else %}
+          <i>No assets uploaded.</i>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

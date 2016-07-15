@@ -15,7 +15,8 @@
 {% block content %}
   <div class="content__inner">
     <div class="fields">
-      <div class="field hidden">
+      <h2>Base fields:</h2>
+      <div class="field hidden" cms-name="_contentType" cms-type="text">
         <input type="hidden" name="_contentType" value="{{ contentType._slug }}">
       </div>
 
@@ -24,23 +25,23 @@
         type: "text"
       }, doc) }}
 
-      <div class="field">
+      <div class="field" cms-name="_slug" cms-type="text">
         <div class="field__title">_slug</div>
         <input disabled name="_slug" class="slugger" type="text" value="{{ doc._slug }}">
       </div>
 
-      <div class="field">
+      <div class="field" cms-name="_slugType" cms-type="select">
         <div class="field__title">_slugType</div>
         <div class="select-wrapper">
           <select name="_slugType">
-            <option value="standard" {{ "selected" if doc._slugType=="standard" }}>Standard (all slugs)</option>
-            <option value="no-content-type" {{ "selected" if doc._slugType=="no-content-type" }}>No content type slug</option>
-            <option value="index" {{ "selected" if doc._slugType=="index" }}>This is index</option>
+            <option value="standard" {{ "selected" if doc._slugType=="standard" }}>Standard (/content-type/post-name)</option>
+            <option value="no-content-type" {{ "selected" if doc._slugType=="no-content-type" }}>No content type (/post-name)</option>
+            <option value="index" {{ "selected" if doc._slugType=="index" }}>This is index (/)</option>
           </select>
         </div>
       </div>
 
-      <div class="field">
+      <div class="field" cms-name="_template" cms-type="select">
         <div class="field__title">_template</div>
         <div class="select-wrapper">
           <select name="_template">
@@ -51,6 +52,7 @@
         </div>
       </div>
 
+      <h2>Content fields:</h2>
       {% for field in contentType.fields %}
         {{ fields.field(field, doc) }}
       {% endfor %}

@@ -43,9 +43,35 @@ select {
 
 .field {
   margin-bottom: 24px;
+  max-width: 600px;
 }
+
+  .field__input {
+    display: inline-block;
+    width: 100%;
+  }
+
   .field__title {
     margin-bottom: 8px;
     font-size: 14px;
     color: #5b5b5b;
+  }
+
+  .field--asset {
+    input {
+      display: inline-block;
+      width: 40%;
+    }
+    img {
+      vertical-align: middle;
+      border: 1px solid black;
+
+      &[src="/assets/uploads/"] {
+        display: none;
+      }
+    }
+  }
+
+  .field__template {
+    display: none;
   }

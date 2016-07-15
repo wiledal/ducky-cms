@@ -1,0 +1,24 @@
+.cms-checkbox {
+  position: relative;
+  display: inline-block;
+
+  span {
+    display: inline-block;
+    padding: 20px 16px;
+    background: #fff;
+    line-height: 0;
+
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  input:checked + span {
+    color: #fff;
+    background: #5f20b8;
+  }
+}

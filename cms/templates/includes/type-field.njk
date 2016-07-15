@@ -1,0 +1,22 @@
+<div class="type-field">
+  <input type="text" name="name" value="{{ field.name }}" placeholder="Name">
+
+  <div class="select-wrapper">
+    <select name="type">
+      <option value="text" {{ "selected" if field.type=='text' }}>Text</option>
+      <option value="textarea" {{ "selected" if field.type=='textarea' }}>Textarea</option>
+      <option value="markdown" {{ "selected" if field.type=='markdown' }}>Markdown</option>
+      <option value="asset" {{ "selected" if field.type=='asset' }}>Asset</option>
+      <option value="reference" {{ "selected" if field.type=='reference' }}>Reference</option>
+    </select>
+  </div>
+
+  <label class="cms-checkbox">
+    <input type="checkbox" name="multiple" {{ "checked" if field.multiple }}>
+    <span>multiple</span>
+  </label>
+
+  <div class="type-field__tools">
+    <button class="button js-remove-type-field icon-basic-trashcan" ></button>
+  </div>
+</div>

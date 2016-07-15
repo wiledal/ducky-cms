@@ -54,6 +54,9 @@ module.exports = (options) => {
   nun.addGlobal('slugify', helpers.slugify);
   nun.addFilter('slugify', helpers.slugify);
 
+  nun.addGlobal('camelCasify', helpers.toCamelCase);
+  nun.addFilter('camelCasify', helpers.toCamelCase);
+
   // Nunjucks middleware
   app.context.render = function(file, options) {
     this.body = nun.render(`${file}.njk`, options);
@@ -62,6 +65,16 @@ module.exports = (options) => {
   // MIDDLEWARE INITS
   app.use(koaMount('/', koaStatic(`${projectPath}/build`)));
   app.use(koaMount('/admin/assets', koaStatic(__dirname + '/assets')));
+
+  app.use(function*(next) {
+    var assets = yield glob(`${projectPath}/assets/uploads/**/*`);
+    this.assets = assets.map((a) => {
+      return path.basename(a);
+    });
+
+    yield next;
+  })
+
   app.use(koaBody());
   app.use(router.routes());
 
@@ -69,7 +82,8 @@ module.exports = (options) => {
   router.get('/admin', function*() {
     var contentTypes = yield db.find({ _type: 'content-type' });
     return this.render('views/index', {
-      contentTypes: contentTypes
+      contentTypes: contentTypes,
+      assets: this.assets
     });
   });
   router.get('/admin/content/:slug', function*() {
@@ -79,7 +93,8 @@ module.exports = (options) => {
     this.render('views/content', {
       contentTypes: contentTypes,
       contentType: contentType,
-      docs: docs
+      docs: docs,
+      assets: this.assets
     });
   });
   router.get('/admin/content/:id/edit', function*() {
@@ -97,6 +112,7 @@ module.exports = (options) => {
       contentType: contentType,
       contentTypes: contentTypes,
       doc: doc,
+      assets: this.assets,
       selectedTemplate: doc._template
     });
   });
@@ -112,6 +128,7 @@ module.exports = (options) => {
       contentTypes: contentTypes,
       contentType: contentType,
       templates: templates,
+      assets: this.assets,
       selectedTemplate: contentType._defaultTemplate
     });
   });
@@ -119,7 +136,8 @@ module.exports = (options) => {
   router.get('/admin/content-types', function*() {
     var contentTypes = yield db.find({ _type: 'content-type' });
     this.render('views/content-types', {
-      contentTypes: contentTypes
+      contentTypes: contentTypes,
+      assets: this.assets
     });
   });
   router.get('/admin/content-types/:id/edit', function*() {
@@ -134,6 +152,7 @@ module.exports = (options) => {
       contentTypes: contentTypes,
       contentType: contentType,
       templates: templates,
+      assets: this.assets,
       selectedTemplate: contentType._defaultTemplate
     });
   });
@@ -146,7 +165,8 @@ module.exports = (options) => {
 
     this.render('views/content-type-edit', {
       contentTypes: contentTypes,
-      templates: templates
+      templates: templates,
+      assets: this.assets
     });
   });
 
@@ -159,14 +179,10 @@ module.exports = (options) => {
 
   router.get('/admin/assets', function*() {
     var contentTypes = yield db.find({ _type: 'content-type' });
-    var assets = yield glob(`${projectPath}/assets/uploads/**/*`);
-    assets = assets.map((a) => {
-      return path.basename(a);
-    });
 
     this.render('views/assets', {
       contentTypes: contentTypes,
-      assets: assets
+      assets: this.assets
     });
   });
 
@@ -227,6 +243,10 @@ module.exports = (options) => {
     var doc = this.request.body;
 
     db.update({ _id: id }, { $set: doc });
+
+    this.body = {
+      success: true
+    }
 
     clientGulp.start('build');
   });

@@ -9,6 +9,10 @@
     overflow: hidden;
     border: 2px solid #b8b8b8;
 
+    &:hover {
+      border: 2px solid #6722cc;
+    }
+
     img {
       position: absolute;
       top: 50%;

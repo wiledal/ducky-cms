@@ -488,6 +488,8 @@ table {
   height: 200px;
   overflow: hidden;
   border: 2px solid #b8b8b8; }
+  .asset:hover {
+    border: 2px solid #6722cc; }
   .asset img {
     position: absolute;
     top: 50%;
@@ -509,6 +511,23 @@ table {
   outline: none; }
   .button:hover {
     background: #4a3890; }
+
+.cms-checkbox {
+  position: relative;
+  display: inline-block; }
+  .cms-checkbox span {
+    display: inline-block;
+    padding: 20px 16px;
+    background: #fff;
+    line-height: 0;
+    border: 1px solid #cfcfcf;
+    border-radius: 2px; }
+  .cms-checkbox input {
+    position: absolute;
+    opacity: 0; }
+  .cms-checkbox input:checked + span {
+    color: #fff;
+    background: #5f20b8; }
 
 .console {
   background: #292929;
@@ -592,12 +611,30 @@ select {
   padding: 0 16px; }
 
 .field {
-  margin-bottom: 24px; }
+  margin-bottom: 24px;
+  max-width: 600px; }
+
+.field__input {
+  display: inline-block;
+  width: 100%; }
 
 .field__title {
   margin-bottom: 8px;
   font-size: 14px;
   color: #5b5b5b; }
+
+.field--asset input {
+  display: inline-block;
+  width: 40%; }
+
+.field--asset img {
+  vertical-align: middle;
+  border: 1px solid black; }
+  .field--asset img[src="/assets/uploads/"] {
+    display: none; }
+
+.field__template {
+  display: none; }
 
 .modal {
   position: fixed;
@@ -608,13 +645,16 @@ select {
   bottom: 0;
   background: rgba(255, 255, 255, 0.8); }
 
-.modal__inner {
+.modal__padded {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 600px;
-  max-height: 300px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24px; }
+
+.modal__inner {
+  position: relative;
   width: 100%;
   height: 100%;
   border: 1px solid #dddddd;
@@ -712,7 +752,11 @@ select {
 
 .type-field {
   position: relative;
-  margin-bottom: 8px; }
+  margin-bottom: 8px;
+  padding: 8px;
+  max-width: 600px; }
+  .type-field:nth-child(even) {
+    background: #f5f5f5; }
   .type-field input {
     display: inline-block;
     width: 30%; }
@@ -721,7 +765,7 @@ select {
 
 .type-field__tools {
   position: absolute;
-  top: 0;
-  right: 0; }
+  top: 8px;
+  right: 8px; }
   .type-field__tools .button {
     padding: 12px; }

@@ -1,17 +1,52 @@
-{% macro field(f, doc) %}
-  <div class="field">
-    <div class="field__title">{{ f.name }}</div>
-
+{% macro fieldInput(f, value) %}
+  <div class="input">
     {% if f.type == "textarea" %}
-      <textarea name="{{ slugify(f.name) }}">{{ doc[slugify(f.name)] }}</textarea>
+      <textarea>{{ value }}</textarea>
     {% endif %}
 
     {% if f.type == "markdown" %}
-      <textarea class='textarea--markdown' name="{{ slugify(f.name) }}">{{ doc[slugify(f.name)] }}</textarea>
+      <textarea class='textarea--markdown'>{{ value }}</textarea>
     {% endif %}
 
     {% if f.type == "text" %}
-      <input name="{{ slugify(f.name) }}" type="text" value="{{ doc[slugify(f.name)] }}">
+      <input type="text" value="{{ value }}">
+    {% endif %}
+
+    {% if f.type == "asset" %}
+      <input type="text" disabled value="{{ value }}">
+      <button class="button js-select-asset">Select</button>
+      <img src="/assets/uploads/{{ value }}" width="50" alt="">
+    {% endif %}
+
+    {% if f.multiple %}
+      <button class="button js-remove-multiple-field"><span class="icon icon-basic-trashcan"></span></button>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro field(f, doc) %}
+  <div class="field field--{{ f.type }}"
+    {{ "cms-multiple" if f.multiple }}
+    cms-type="{{ f.type }}"
+    cms-name="{{ f.name }}"
+    >
+    <div class="field__title">{{ f.name }}</div>
+
+    <div class="field__input">
+      {% if f.multiple %}
+        {% for fi in doc[camelCasify(f.name)] %}
+          {{ fieldInput(f, fi) }}
+        {% endfor %}
+      {% else %}
+        {{ fieldInput(f, doc[camelCasify(f.name)]) }}
+      {% endif %}
+    </div>
+
+    {% if f.multiple %}
+      <div class="field__template">
+        {{ fieldInput(f, "") }}
+      </div>
+      <button class="button js-add-multiple-field">+ ADD</button>
     {% endif %}
   </div>
 {% endmacro %}
