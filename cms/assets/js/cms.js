@@ -572,8 +572,8 @@ function CMS() {
       var typeFields = [].slice.call(document.querySelectorAll('.type-field'));
 
       var data = {
-        _name: document.querySelector('.field[cms-name="_name"]').value,
-        _defaultTemplate: document.querySelector('.field[cms-name="_defaultTemplate"]').value,
+        _name: document.querySelector('.field[cms-name="_name"] input').value,
+        _defaultTemplate: document.querySelector('.field[cms-name="_defaultTemplate"] select').value,
         fields: []
       };
 

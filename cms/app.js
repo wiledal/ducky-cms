@@ -258,6 +258,9 @@ module.exports = (options) => {
   });
   router.delete('/admin/content-type/:id', function*() {
     var id = this.params.id;
+    var contentType = yield db.findOne({ _id: this.params.id });
+
+    db.remove({ _contentType: contentType._slug }, { multi: true });
     db.remove({ _id: id });
 
     clientGulp.start('build');
