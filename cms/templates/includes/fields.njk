@@ -18,6 +18,14 @@
       <img src="/assets/uploads/{{ value }}" width="50" alt="">
     {% endif %}
 
+    {% if f.type == "reference" %}
+      <select>
+        {% for doc in f.docs %}
+          <option value="{{ doc._id }}">{{ doc._name }}</option>
+        {% endfor %}
+      </select>
+    {% endif %}
+
     {% if f.multiple %}
       <button class="button js-remove-multiple-field"><span class="icon icon-basic-trashcan"></span></button>
     {% endif %}

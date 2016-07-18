@@ -2,12 +2,23 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const include = require('gulp-include');
 const watch = require('gulp-watch');
-const sassGlob = require('gulp-sass-glob');
+const sassGlob = require('gulp-sass-glob')
+const babel = require('gulp-babel');
+const mergeStream = require('merge-stream');
 
 gulp.task('js', () => {
-  return gulp.src('source/js/cms.js')
+  const vendor = gulp.src('source/js/vendor.js')
     .pipe(include())
     .pipe(gulp.dest('assets/js'));
+
+  const cms = gulp.src('source/js/cms.js')
+    .pipe(include())
+    .pipe(babel({
+      presets: [
+        'es2015'
+      ]
+    }))
+      .pipe(gulp.dest('assets/js'))
 });
 
 gulp.task('css', () => {
