@@ -283,7 +283,8 @@ module.exports = (options) => {
   });
 
   app.listen(port);
-  console.log(`DuckyCMS is listening on ${port}. QUACK QUACK!`);
+  console.log(`DuckyCMS is listening on ${port}. ` + `QUACK!`.yellow);
+  console.log(`Check out your page at ` + `http://localhost:${port}`.green);
 
   clientGulp.start('watch');
 };

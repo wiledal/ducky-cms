@@ -9,6 +9,7 @@ const colors = require('colors');
 const duckycms = require(__dirname + '/../cms/app.js');
 const nedb = require('nedb');
 const helpers = require(`${__dirname}/../lib/helpers.js`);
+const glob = require('glob');
 
 const argv = yargs.argv;
 
@@ -91,12 +92,16 @@ command('init', 'Initiates a new project', 'ducky init <project path>', (args, a
     });
 
     console.log('Ducky was initiated.');
-    console.log(`Now run 'cd ${path}' and then 'ducky cms' to get going!`);
+    console.log(`Now run ` + `cd ${path}`.green + ` and then ` + 'ducky cms'.green + ` to get going!`);
   });
 });
 
 command('cms', 'Starts the CMS', 'ducky cms [--port 3000]', (args, argv) => {
-  duckycms(argv);
+  glob(`${process.cwd()}/.duckycms`, (err, files) => {
+    if (!files.length) return console.log('Target folder does not seem to be a DuckyCMS project'.yellow);
+    duckycms(argv);
+  })
+
 });
 
 // RUN
