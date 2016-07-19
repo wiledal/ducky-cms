@@ -19,15 +19,17 @@
     {% endif %}
 
     {% if f.type == "reference" %}
-      <select>
-        {% for type in contentTypes %}
-          <optgroup label="{{ type._name }}">
-            {% for doc in type._docs %}
-              <option value="{{ doc._id }}" {{ "selected" if value.id == doc._id }}>{{ doc._name }}</option>
-            {% endfor %}
-          </optgroup>
-        {% endfor %}
-      </select>
+      <div class="select-wrapper">
+        <select>
+          {% for type in contentTypes %}
+            <optgroup label="{{ type._name }}">
+              {% for doc in type._docs %}
+                <option value="{{ doc._id }}" {{ "selected" if value.id == doc._id }}>{{ doc._name }}</option>
+              {% endfor %}
+            </optgroup>
+          {% endfor %}
+        </select>
+      </div>
     {% endif %}
 
     {% if f.multiple %}

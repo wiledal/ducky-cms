@@ -84,10 +84,8 @@ mikrom.component('.js-save-doc', (el) => {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
 
-    console.log(data);
-
     xhr.onload = function() {
-      //location.href = '/admin/content/' + contentType._slug;
+      location.href = '/admin/content/' + contentType._slug;
     }
   });
 })

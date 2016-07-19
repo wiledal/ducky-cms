@@ -1,6 +1,6 @@
 {
   "name": "ducky-cms",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "A node-based flat-file cms for static publishing",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

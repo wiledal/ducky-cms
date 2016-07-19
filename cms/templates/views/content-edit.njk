@@ -2,7 +2,7 @@
 {% import "includes/fields.njk" as fields %}
 
 {% block header %}
-  <h1>{{ contentType._name }} > <i>{{ doc._name or 'unnamed' }}</i></h1>
+  <h1>{{ contentType._name }} > <i>{{ doc._name or 'new' }}</i></h1>
 
   <div class="topbar__right">
     {% if doc %}

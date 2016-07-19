@@ -102,8 +102,6 @@ gulp.task('templates', (done) => {
         }
       });
 
-      //console.log(docs);
-
       // NUNJUCK GLOBALS AND FILTERS
       nun.addFilter('slugify', helpers.slugify);
       nun.addFilter('markdown', (text) => {

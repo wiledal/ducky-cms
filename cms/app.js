@@ -90,24 +90,18 @@ module.exports = (options) => {
 
   // Routes
   router.get('/admin', function*() {
-    var contentTypes = yield db.find({ _type: 'content-type' });
-    return this.render('views/index', {
-      contentTypes: contentTypes
-    });
+    return this.render('views/index');
   });
   router.get('/admin/content/:slug', function*() {
-    var contentTypes = yield db.find({ _type: 'content-type' });
     var contentType = yield db.findOne({ _slug: this.params.slug });
     var docs = yield db.find({ _contentType: contentType._slug });
     this.render('views/content', {
-      contentTypes: contentTypes,
       contentType: contentType,
       docs: docs
     });
   });
   router.get('/admin/content/:id/edit', function*() {
     var doc = yield db.findOne({ _id: this.params.id });
-    var contentTypes = yield db.find({ _type: 'content-type' });
     var contentType = yield db.findOne({ _slug: doc._contentType });
 
     var templates = yield glob(`${projectPath}/templates/views/**/*.njk`);
@@ -118,13 +112,11 @@ module.exports = (options) => {
     this.render('views/content-edit', {
       templates: templates,
       contentType: contentType,
-      contentTypes: contentTypes,
       doc: doc,
       selectedTemplate: doc._template
     });
   });
   router.get('/admin/content/:slug/new', function*() {
-    var contentTypes = yield db.find({ _type: 'content-type' });
     var contentType = yield db.findOne({ _slug: this.params.slug });
     var templates = yield glob(`${projectPath}/templates/views/**/*.njk`);
     templates = templates.map((t) => {
@@ -132,7 +124,6 @@ module.exports = (options) => {
     });
 
     this.render('views/content-edit', {
-      contentTypes: contentTypes,
       contentType: contentType,
       templates: templates,
       selectedTemplate: contentType._defaultTemplate
@@ -140,13 +131,9 @@ module.exports = (options) => {
   });
 
   router.get('/admin/content-types', function*() {
-    var contentTypes = yield db.find({ _type: 'content-type' });
-    this.render('views/content-types', {
-      contentTypes: contentTypes,
-    });
+    this.render('views/content-types');
   });
   router.get('/admin/content-types/:id/edit', function*() {
-    var contentTypes = yield db.find({ _type: 'content-type' });
     var contentType = yield db.findOne({ _id: this.params.id });
     var templates = yield glob(`${projectPath}/templates/views/**/*.njk`);
     templates = templates.map((t) => {
@@ -154,38 +141,40 @@ module.exports = (options) => {
     });
 
     this.render('views/content-type-edit', {
-      contentTypes: contentTypes,
       contentType: contentType,
       templates: templates,
       selectedTemplate: contentType._defaultTemplate
     });
   });
   router.get('/admin/content-types/new', function*() {
-    var contentTypes = yield db.find({ _type: 'content-type' });
     var templates = yield glob(`${projectPath}/templates/views/**/*.njk`);
     templates = templates.map((t) => {
       return path.basename(t, path.extname(t));
     });
 
     this.render('views/content-type-edit', {
-      contentTypes: contentTypes,
       templates: templates,
     });
   });
 
   router.get('/admin/deploy', function*() {
-    var contentTypes = yield db.find({ _type: 'content-type' });
     this.render('views/deploy', {
-      contentTypes: contentTypes
+      deployments: yield db.find({ _type: 'deployment' })
+    });
+  });
+
+  router.get('/admin/deployment/new', function*() {
+    this.render('views/deploy-edit');
+  });
+  router.get('/admin/deployment/:id', function*() {
+    var deployment = yield db.findOne({ _id: this.params.id });
+    this.render('views/deploy-edit', {
+      deployment: deployment
     });
   });
 
   router.get('/admin/assets', function*() {
-    var contentTypes = yield db.find({ _type: 'content-type' });
-
-    this.render('views/assets', {
-      contentTypes: contentTypes,
-    });
+    this.render('views/assets');
   });
 
   router.post('/admin/assets/upload', koaBody({
@@ -266,19 +255,52 @@ module.exports = (options) => {
     clientGulp.start('build');
   });
 
-  // deploy
-  router.post('/admin/deploy', function*() {
-    var method = this.request.body.method;
+  // Deployment
+  router.post('/admin/deployment/', function*() {
+    var doc = this.request.body;
+    doc._slug = helpers.slugify(doc._name);
+    doc._type = 'deployment';
 
-    if (method == 'surge') {
-      var result = yield execp(`surge ./build --domain ${this.request.body.surge_url}`, {
-        cwd: projectPath
-      });
+    db.insert(doc)
+    this.body = {
+      success: true
     }
+  });
+  router.put('/admin/deployment/:id', function*() {
+    var id = this.params.id;
+    var doc = this.request.body;
+
+    db.update({ _id: id }, { $set: doc });
 
     this.body = {
-      success: true,
-      message: result
+      success: true
+    }
+  });
+  router.delete('/admin/deployment/:id', function*() {
+    var id = this.params.id;
+    db.remove({ _id: id });
+    
+    this.body = {
+      success: true
+    }
+  });
+
+
+  // deploy
+  router.post('/admin/deploy/:id', function*() {
+    var deployment = yield db.findOne({ _id: this.params.id });
+
+    console.log(deployment);
+
+    if (deployment._method == 'surge') {
+      var result = yield execp(`surge ./build --domain ${deployment.domain}`, {
+        cwd: projectPath
+      });
+
+      this.body = {
+        success: true,
+        message: result
+      }
     }
   });
 

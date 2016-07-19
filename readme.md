@@ -29,3 +29,11 @@ Temporary install-solution. Published NPM-module to be released.
 
 Wow! FOR REAL?  
 Yes. For real.
+
+## TODO
+- Better deployment system, able to set many deployment endpoints and types
+- Improve asset selector and uploader
+- Make lists reorderable
+- Documentation for templating
+- Encrypt local storage file?
+- Improve field creation to be more graphical

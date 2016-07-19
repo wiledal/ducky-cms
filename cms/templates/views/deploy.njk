@@ -2,21 +2,33 @@
 
 {% block header %}
   <h1>Deploy</h1>
+
+  <div class="topbar__right">
+    <a href="/admin/deployment/new" class="button"><span class="icon icon-basic-sheet"></span>Create new</a>
+  </div>
 {% endblock %}
 
 {% block content %}
   <div class="content__inner">
-    <h2>Deploy with surge</h2>
-    <p>
-      Please make sure you have <a href="http://surge.sh" target="_blank">Surge</a> set up on your computer.
-    </p>
-    <div class="field">
-      <div class="field__title">Domain</div>
-      <input type="text" name="surge_url" value="" placeholder="example.surge.sh">
-    </div>
-    <button class="button js-deploy-surge">surge deploy</button>
+    <div class="table table--large">
+      {% for doc in deployments %}
+        <div class="table__row">
+          <a href="/admin/deployment/{{ doc._id }}">{{ doc._name }}</a>
 
-    <pre class="console">Console output:
+          <span class="small">{{ doc.domain }}</span>
+
+          <div class="table__right">
+            <button class="button js-deploy" deployment-id="{{ doc._id }}">DEPLOY</button>
+          </div>
+        </div>
+      {% else %}
+      <p>
+        <i>No deployments defined...</i> <a href="/admin/deployment/new">Create one</a>
+      </p>
+      {% endfor %}
+
+      <pre class="console">Console output:
 ---------------------------------</pre>
+    </div>
   </div>
 {% endblock %}

@@ -115,6 +115,51 @@ mikrom.component('.field[cms-multiple]', function (el) {
   });
 });
 
+mikrom.component('.js-deploy', function (el, attr) {
+  el.addEventListener('click', function () {
+    if (window.cmsDeploying || !confirm("Are you sure you want to deploy?")) return;
+    window.cmsDeploying = true;
+
+    var url = '/admin/deploy/' + attr.deploymentId;
+    var method = 'POST';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.responseType = 'json';
+    xhr.dataType = 'json';
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send();
+
+    document.querySelector('.console').innerHTML += '\nDeploying... please wait...';
+
+    xhr.onload = function () {
+      var mess = ansi_up.ansi_to_html(xhr.response.message);
+      document.querySelector('.console').innerHTML += mess;
+    };
+  });
+});
+
+mikrom.component('.js-remove-deployment', function (el, attr) {
+  el.addEventListener('click', function () {
+    if (!confirm("Are you sure?")) return;
+
+    var url = '/admin/deployment/' + deployment._id;
+    var method = 'DELETE';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.responseType = 'json';
+    xhr.dataType = 'json';
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onload = function () {
+      location.href = '/admin/deploy/';
+    };
+
+    xhr.send();
+  });
+});
+
 mikrom.component('.js-remove-multiple-field', function (el) {
   el.addEventListener('click', function () {
     el.parentNode.parentNode.removeChild(el.parentNode);
@@ -163,6 +208,31 @@ mikrom.component('.js-save-content-type', function (el) {
 
     xhr.onload = function () {
       location.href = '/admin/content-types/';
+    };
+  });
+});
+
+mikrom.component('.js-save-deployment', function (el) {
+  el.addEventListener('click', function () {
+
+    var data = {
+      _name: document.querySelector('.field[cms-name="_name"] input').value,
+      _method: document.querySelector('.field[cms-name="_method"] input').value,
+      domain: document.querySelector('.field[cms-name="Domain"] input').value
+    };
+
+    var url = deployment._id ? '/admin/deployment/' + deployment._id : '/admin/deployment';
+    var method = deployment._id ? 'PUT' : 'POST';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.responseType = 'json';
+    xhr.dataType = 'json';
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(data));
+
+    xhr.onload = function () {
+      location.href = '/admin/deploy/';
     };
   });
 });
@@ -253,10 +323,8 @@ mikrom.component('.js-save-doc', function (el) {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
 
-    console.log(data);
-
     xhr.onload = function () {
-      //location.href = '/admin/content/' + contentType._slug;
+      location.href = '/admin/content/' + contentType._slug;
     };
   });
 });

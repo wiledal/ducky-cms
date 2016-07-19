@@ -44,6 +44,7 @@
     <script type="text/javascript">
       var doc = {{ doc | dump | safe or "{}" }}
       var contentType = {{ contentType | dump | safe or "{}" }}
+      var deployment = {{ deployment | dump | safe or "{}" }}
     </script>
 
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>

@@ -1,10 +1,15 @@
 .table {
   width: 100%;
+
+  .small {
+    font-size: 11px;
+    color: #808080;
+  }
 }
   .table__row {
+    position: relative;
     display: block;
     padding: 10px 16px;
-    cursor: pointer;
 
     &:nth-child(even) {
       background: #f2f2f2;
@@ -14,4 +19,25 @@
       background: #2e265c;
       color: #fff;
     }
+  }
+
+  .table--large {
+    .table__row {
+      padding: 30px 24px;
+      border: 1px solid #e3e3e3;
+      border-radius: 4px;
+      font-size: 20px;
+      margin-bottom: 4px;
+
+      &:hover {
+        background: #f7f7f7;
+        color: #000;
+      }
+    }
+  }
+
+  .table__right {
+    position: absolute;
+    right: 16px;
+    top: 16px;
   }

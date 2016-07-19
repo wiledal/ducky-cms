@@ -1,0 +1,37 @@
+{% extends "layouts/default.njk" %}
+{% import "includes/fields.njk" as fields %}
+
+{% block header %}
+  <h1>Deploy > <i>{{ deployment._name or 'new' }}</i></h1>
+
+  <div class="topbar__right">
+    {% if deployment %}
+      <button class="button js-remove-deployment"><span class="icon icon-basic-trashcan"></span>Delete</button>
+    {% endif %}
+    <button class="button js-save-deployment">Save</button>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content__inner">
+    <p>
+      At the moment only Surge is supported.
+    </p>
+    <br>
+
+    {{ fields.field({
+      name: "_name",
+      type: "text"
+    }, deployment) }}
+
+    <div class="field" cms-name="_method" cms-type="text">
+      <div class="field__title">Method</div>
+      <input type="text" disabled value="surge">
+    </div>
+
+    {{ fields.field({
+      name: "Domain",
+      type: "text"
+    }, deployment) }}
+  </div>
+{% endblock %}
