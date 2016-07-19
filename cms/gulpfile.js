@@ -4,7 +4,10 @@ const include = require('gulp-include');
 const watch = require('gulp-watch');
 const sassGlob = require('gulp-sass-glob')
 const babel = require('gulp-babel');
-const mergeStream = require('merge-stream');
+
+function err(err) {
+  console.log(err.stack);
+}
 
 gulp.task('js', () => {
   const vendor = gulp.src('source/js/vendor.js')
@@ -18,6 +21,7 @@ gulp.task('js', () => {
         'es2015'
       ]
     }))
+      .on('error', err)
       .pipe(gulp.dest('assets/js'))
 });
 

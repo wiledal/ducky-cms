@@ -20,8 +20,12 @@
 
     {% if f.type == "reference" %}
       <select>
-        {% for doc in f.docs %}
-          <option value="{{ doc._id }}">{{ doc._name }}</option>
+        {% for type in contentTypes %}
+          <optgroup label="{{ type._name }}">
+            {% for doc in type._docs %}
+              <option value="{{ doc._id }}" {{ "selected" if value.id == doc._id }}>{{ doc._name }}</option>
+            {% endfor %}
+          </optgroup>
         {% endfor %}
       </select>
     {% endif %}

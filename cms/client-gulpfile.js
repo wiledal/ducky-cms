@@ -41,7 +41,7 @@ function processImage(src, o) {
   var modifiersString = `-${modifiers.width == -1 ? "0" : modifiers.width}x${modifiers.height == -1 ? "0" : modifiers.height}_${modifiers.fit}`;
   var modifiedName = imgName + (o ? modifiersString : "") + imgExt;
   if (fileExists(`${projectPath}/build/assets/img/${modifiedName}`)) return '/assets/img/' + modifiedName;
-  
+
   jimp.read(src, function(err, img) {
     if (err) return console.log(err.stack);
 
@@ -83,6 +83,26 @@ gulp.task('templates', (done) => {
       const assets = null;
 
       const docs = yield db.find({ _type: 'doc' });
+
+      // Resolve references
+      docs.forEach((d) => {
+        for (var f in d) {
+          var field = d[f];
+          if (!Array.isArray(field)) {
+            if (field.type == 'reference') {
+              d[f] = docs.filter((d2) => d2._id == field.id)[0];
+            }
+          }else{
+            field.forEach((nestedField) => {
+              if (nestedField.type == 'reference') {
+                nestedField = docs.filter((d2) => d2._id == nestedField.id)[0];
+              }
+            })
+          }
+        }
+      });
+
+      //console.log(docs);
 
       // NUNJUCK GLOBALS AND FILTERS
       nun.addFilter('slugify', helpers.slugify);

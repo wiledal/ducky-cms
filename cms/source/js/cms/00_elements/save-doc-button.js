@@ -34,6 +34,15 @@ mikrom.component('.js-save-doc', (el) => {
               data[name].push(input.mde.value());
             });
           break;
+          case 'reference':
+            var inputs = [].slice.call(f.querySelectorAll('.field__input select'));
+            inputs.forEach(function(input) {
+              data[name].push({
+                type: 'reference',
+                id: input.value
+              });
+            });
+          break;
         }
       }else{
         switch(type) {
@@ -54,6 +63,13 @@ mikrom.component('.js-save-doc', (el) => {
             var input = f.querySelector('select');
             data[name] = input.value;
           break;
+          case 'reference':
+            var input = f.querySelector('select');
+            data[name] = {
+              type: 'reference',
+              id: input.value
+            }
+          break;
         }
       }
     });
@@ -68,8 +84,10 @@ mikrom.component('.js-save-doc', (el) => {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
 
+    console.log(data);
+
     xhr.onload = function() {
-      location.href = '/admin/content/' + contentType._slug;
+      //location.href = '/admin/content/' + contentType._slug;
     }
   });
 })

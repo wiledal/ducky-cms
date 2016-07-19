@@ -68,9 +68,19 @@ module.exports = (options) => {
 
   app.use(function*(next) {
     var assets = yield glob(`${projectPath}/assets/uploads/**/*`);
-    this.assets = assets.map((a) => {
+    var contentTypes = yield db.find({ _type: 'content-type' });
+
+    for (var i = 0; i < contentTypes.length; i++) {
+      var docs = yield db.find({ _contentType: contentTypes[i]._slug });
+      contentTypes[i]._docs = docs;
+    }
+
+    var assetsSorted = assets.map((a) => {
       return path.basename(a);
     });
+
+    nun.addGlobal('assets', assetsSorted);
+    nun.addGlobal('contentTypes', contentTypes);
 
     yield next;
   })
@@ -82,8 +92,7 @@ module.exports = (options) => {
   router.get('/admin', function*() {
     var contentTypes = yield db.find({ _type: 'content-type' });
     return this.render('views/index', {
-      contentTypes: contentTypes,
-      assets: this.assets
+      contentTypes: contentTypes
     });
   });
   router.get('/admin/content/:slug', function*() {
@@ -93,8 +102,7 @@ module.exports = (options) => {
     this.render('views/content', {
       contentTypes: contentTypes,
       contentType: contentType,
-      docs: docs,
-      assets: this.assets
+      docs: docs
     });
   });
   router.get('/admin/content/:id/edit', function*() {
@@ -112,7 +120,6 @@ module.exports = (options) => {
       contentType: contentType,
       contentTypes: contentTypes,
       doc: doc,
-      assets: this.assets,
       selectedTemplate: doc._template
     });
   });
@@ -128,7 +135,6 @@ module.exports = (options) => {
       contentTypes: contentTypes,
       contentType: contentType,
       templates: templates,
-      assets: this.assets,
       selectedTemplate: contentType._defaultTemplate
     });
   });
@@ -137,7 +143,6 @@ module.exports = (options) => {
     var contentTypes = yield db.find({ _type: 'content-type' });
     this.render('views/content-types', {
       contentTypes: contentTypes,
-      assets: this.assets
     });
   });
   router.get('/admin/content-types/:id/edit', function*() {
@@ -152,7 +157,6 @@ module.exports = (options) => {
       contentTypes: contentTypes,
       contentType: contentType,
       templates: templates,
-      assets: this.assets,
       selectedTemplate: contentType._defaultTemplate
     });
   });
@@ -166,7 +170,6 @@ module.exports = (options) => {
     this.render('views/content-type-edit', {
       contentTypes: contentTypes,
       templates: templates,
-      assets: this.assets
     });
   });
 
@@ -182,7 +185,6 @@ module.exports = (options) => {
 
     this.render('views/assets', {
       contentTypes: contentTypes,
-      assets: this.assets
     });
   });
 
@@ -201,9 +203,7 @@ module.exports = (options) => {
   })
 
   router.get('/admin/assets/all', function*() {
-    this.render('views/api/assets', {
-      assets: this.assets
-    });
+    this.render('views/api/assets');
   });
 
   // Create new
