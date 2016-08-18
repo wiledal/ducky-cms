@@ -10,6 +10,7 @@ const duckycms = require(__dirname + '/../cms/app.js');
 const nedb = require('nedb');
 const helpers = require(`${__dirname}/../lib/helpers.js`);
 const glob = require('glob');
+const DB = require('../lib/db.js');
 
 const argv = yargs.argv;
 
@@ -17,14 +18,17 @@ let commands = {};
 let helps = {};
 function command(cmd, desc, usage, cb) {
   commands[cmd] = cb;
-  helps[cmd] = usage;
+  helps[cmd] = {
+    desc,
+    usage
+  }
 }
 
 function help() {
   let output = 'Ducky help:';
 
   for (var h in helps) {
-    output += '\n' + h + ' ' + helps[h];
+    output += '\n' + h + '\t\t' + helps[h].usage;
   }
 
   console.log(output);
@@ -59,10 +63,7 @@ command('init', 'Initiates a new project', 'ducky init <project path>', (args, a
     console.log(`Setting up default content...`);
 
     // Default database input
-    const db = new nedb({
-      filename: `${process.cwd()}/${path}/.duckycms/content.db`,
-      autoload: true
-    });
+    const db = DB(`${process.cwd()}/${path}`);
     db.insert({
       _type: "content-type",
       _name: "Pages",

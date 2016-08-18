@@ -8,11 +8,11 @@ const koaBody = require('koa-body');
 const helpers = require(`${__dirname}/../lib/helpers.js`);
 
 const marked = require('marked');
-const nedb = require('nedb-promise');
 const clientGulp = require('./client-gulpfile.js');
 const nunjucks = require('nunjucks');
 const glob = require('glob-promise');
 const path = require('path');
+const DB = require('../lib/db.js');
 
 const exec = require('child_process').exec;
 function execp(command, args) {
@@ -42,10 +42,7 @@ module.exports = (options) => {
   // Run app
   const app = koa();
   const router = koaRouter(app);
-  const db = new nedb({
-    filename: `${projectPath}/.duckycms/content.db`,
-    autoload: true
-  });
+  const db = DB(projectPath);
 
   const nun = nunjucks.configure(`${__dirname}/templates`, {
     watch: true
@@ -279,7 +276,7 @@ module.exports = (options) => {
   router.delete('/admin/deployment/:id', function*() {
     var id = this.params.id;
     db.remove({ _id: id });
-    
+
     this.body = {
       success: true
     }
@@ -289,8 +286,6 @@ module.exports = (options) => {
   // deploy
   router.post('/admin/deploy/:id', function*() {
     var deployment = yield db.findOne({ _id: this.params.id });
-
-    console.log(deployment);
 
     if (deployment._method == 'surge') {
       var result = yield execp(`surge ./build --domain ${deployment.domain}`, {

@@ -11,7 +11,7 @@ const helpers = require('../lib/helpers.js');
 const co = require('co');
 
 const nunjucks = require('nunjucks');
-const nedb = require('nedb-promise');
+const DB = require('../lib/db.js');
 const jimp = require('jimp');
 const marked = require('marked');
 
@@ -74,10 +74,7 @@ gulp.task('templates', (done) => {
   co(function*() {
     try {
       const nun = nunjucks.configure(`${projectPath}/templates`);
-      const db = new nedb({
-        filename: `${projectPath}/.duckycms/content.db`,
-        autoload: true
-      });
+      const db = DB(projectPath);
 
       const contentTypes = null;
       const assets = null;

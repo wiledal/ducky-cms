@@ -52,18 +52,31 @@ body {
 }
 
 h1 {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	text-align: center;
 	font-weight: bold;
 	font-size: 40px;
-	text-align: center;
-	margin-bottom: 20px;
+	transform: translate(0, -50%);
+	color: #18167a;
 }
 
-.wrapper {
+.body {
 	max-width: 600px;
-	margin: 30px auto;
+	margin: 0 auto;
+
+	padding: 24px 0;
 }
 
 .footer {
 	text-align: center;
 	color: #c8c8c8;
+}
+
+.header {
+	position: relative;
+	height: 400px;
+	width: 100%;
+	background: linear-gradient(to bottom right, #ffed00, #ff71d3);
 }
