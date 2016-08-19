@@ -79,7 +79,7 @@ gulp.task('templates', (done) => {
       const contentTypes = null;
       const assets = null;
 
-      const docs = yield db.find({ _type: 'doc' });
+      var docs = yield db.find({ _type: 'doc' });
 
       // Resolve references
       docs.forEach((d) => {
@@ -122,6 +122,12 @@ gulp.task('templates', (done) => {
       });
       nun.addGlobal('content', docs);
 
+      docs = docs.sort((a, b) => {
+        if (a._createdAt > b._createdAt) return -1;
+        if (a._createdAt < b._createdAt) return 1;
+        return 0;
+      });
+
       docs.forEach((doc) => {
         var contentTypeSlug = doc._contentType;
         var nameSlug = doc._slug;
@@ -150,6 +156,7 @@ gulp.task('templates', (done) => {
       done();
     }catch(err) {
       console.log(err);
+      done();
     }
   })
 });
