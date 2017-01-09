@@ -42,9 +42,9 @@
     {% include "modal/modal-select-asset.njk" %}
 
     <script type="text/javascript">
-      var doc = {{ doc | dump | safe or "{}" }}
-      var contentType = {{ contentType | dump | safe or "{}" }}
-      var deployment = {{ deployment | dump | safe or "{}" }}
+      var doc = {% if doc %}{{ doc | dump | safe }}{% else %}{}{% endif %}
+      var contentType = {% if contentType %}{{ contentType | dump | safe }}{% else %}{}{% endif %}
+      var deployment = {% if deployment %}{{ deployment | dump | safe }}{% else %}{}{% endif %}
     </script>
 
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>

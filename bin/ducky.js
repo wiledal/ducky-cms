@@ -25,7 +25,14 @@ function command(cmd, desc, usage, cb) {
 }
 
 function help() {
-  let output = 'Ducky help:';
+  let output = `
+            __
+        ___( O)>
+        \\ <_/ )
+         \`---'
+    "for duck sake"
+
+Ducky help:`;
 
   for (var h in helps) {
     output += '\n' + h + '\t\t' + helps[h].usage;

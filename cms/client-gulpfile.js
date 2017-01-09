@@ -79,7 +79,7 @@ gulp.task('templates', (done) => {
       const contentTypes = null;
       const assets = null;
 
-      var docs = yield db.find({ _type: 'doc' });
+      var docs = yield db.content.find({ _type: 'doc' });
 
       // Resolve references
       docs.forEach((d) => {
